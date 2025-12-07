@@ -21,9 +21,9 @@ async function extractCurriculumFromPage() {
     // Dispara um clique programático no botão para carregar as seções restantes
     showMoreButton.click();
 
-    // Aguarda 2 segundos para dar tempo à Udemy de processar o clique e renderizar os novos elementos
+    // Aguarda 1 segundo para dar tempo à Udemy de processar o clique e renderizar os novos elementos
     // Se sua internet for muito lenta, você pode aumentar para 3000 (3 segundos) ou 4000 (4 segundos)
-    await sleep(2000);
+    await sleep(1000);
   }
 
   // ETAPA 2: Extrai o TÍTULO do curso
