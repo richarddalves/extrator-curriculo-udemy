@@ -5,6 +5,40 @@ async function extractCurriculumFromPage() {
   // Remove espaços extras e quebras de linha desnecessárias
   const clean = (s) => (s || "").replace(/\s+/g, " ").trim();
 
+  // Extrai o TÍTULO do curso
+  let courseTitle = "";
+  const titleEl = document.querySelector(
+    'h1[data-purpose="lead-title"], h1.clp-lead__title'
+  );
+  if (titleEl) {
+    courseTitle = clean(titleEl.innerText || titleEl.textContent);
+  }
+
+  // Extrai a DESCRIÇÃO do curso
+  let courseDescription = "";
+  const descEl = document.querySelector(
+    'div[data-purpose="lead-headline"], div.clp-lead__headline'
+  );
+  if (descEl) {
+    courseDescription = clean(descEl.innerText || descEl.textContent);
+  }
+
+  // Extrai os AUTORES do curso
+  let courseAuthors = "";
+  const instructorContainer = document.querySelector(
+    'div[data-purpose="instructor-name-top"], div.instructor-links--instructor-links--8GNDS'
+  );
+  if (instructorContainer) {
+    // Pega todos os links de instrutores
+    const authorLinks = instructorContainer.querySelectorAll(
+      "a.ud-instructor-links span.ud-btn-label"
+    );
+    const authors = [...authorLinks]
+      .map((el) => clean(el.innerText || el.textContent))
+      .filter((t) => t.length > 0);
+    courseAuthors = authors.join(", ");
+  }
+
   // Localiza o cabeçalho da seção de currículo na página
   const heading = [...document.querySelectorAll("h1,h2,h3,h4")].find((h) =>
     /conte[uú]do do curso|curr[ií]culo|course content/i.test(
@@ -67,8 +101,22 @@ async function extractCurriculumFromPage() {
     idx++;
   });
 
-  // Monta o output final com estatísticas seguidas das seções
-  const output = (statsText ? `${statsText}\n\n` : "") + lines.join("\n");
+  // Monta o output final no formato especificado
+  let output = "";
+
+  // Adiciona título, descrição e autor
+  if (courseTitle) output += `Título: ${courseTitle}\n`;
+  if (courseDescription) output += `Descrição: ${courseDescription}\n`;
+  if (courseAuthors) output += `Autor: ${courseAuthors}\n`;
+
+  // Adiciona estatísticas se existirem
+  if (statsText) output += `Estatísticas: ${statsText}\n`;
+
+  // Adiciona quebra de linha antes das seções
+  if (output) output += "\n";
+
+  // Adiciona as seções
+  output += lines.join("\n");
 
   console.log("Currículo extraído:");
   console.log(output);
