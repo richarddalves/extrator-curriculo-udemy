@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Extrator Udemy</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="title-row">
+        <h1>📚 Extrator Udemy</h1>
+        <button id="themeToggle" class="theme-toggle" aria-label="Alternar tema">
+          <span class="theme-icon">🌙</span>
+        </button>
+      </div>
+      <p>Extraia o currículo do curso</p>
+    </div>
+    
+    <button id="extractBtn" class="btn-primary">
+      Extrair Currículo
+    </button>
+    
+    <div id="message" class="message hidden"></div>
+    
+    <div id="resultContainer" class="result-container hidden">
+      <h3>Resultado:</h3>
+      <textarea id="resultText" readonly></textarea>
+      <button id="copyBtn" class="btn-secondary">
+        Copiar
+      </button>
+    </div>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>
